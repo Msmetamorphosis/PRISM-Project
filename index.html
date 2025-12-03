@@ -1,43 +1,515 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>PRISM Project – Proxy Recognition and Inclusive Scoring Method</title>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM | Proxy Recognition and Inclusive Scoring Method</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
   <style>
-    body { font-family: Arial; margin: 40px; line-height: 1.6; }
-    h1 { color: #cc9900; }
-    h2 { color: #444; }
-    a { color: #1a0dab; }
+    :root {
+      /* PRISM palette */
+      --bg: #050816;
+      --bg-soft: #0b1020;
+      --card-bg: #0f172a;
+      --accent-purple: #a855f7;
+      --accent-pink: #ec4899;
+      --accent-lavender: #e9d5ff;
+      --accent-blue: #2563eb;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --chip-bg: rgba(168, 85, 247, 0.12);
+      --border-subtle: rgba(148, 163, 184, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+      color: var(--text-main);
+      font-family: "Inter", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      font-family: "Merriweather", serif;
+      margin-top: 0;
+    }
+
+    a {
+      color: var(--accent-lavender);
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(90deg, rgba(15,23,42,0.96), rgba(30,64,175,0.96));
+      color: #f9fafb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 28px;
+      border-bottom: 1px solid rgba(148,163,184,0.35);
+    }
+
+    .nav-title {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 17px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-pill {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #f97316, #ec4899);
+      box-shadow: 0 0 10px rgba(236,72,153,0.9);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: #e5e7eb;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: 0.18s ease;
+    }
+
+    .nav-links a:hover {
+      border-color: rgba(244, 114, 182, 0.7);
+      background: rgba(15,23,42,0.75);
+      transform: translateY(-1px);
+    }
+
+    /* HERO */
+    header {
+      padding: 70px 20px 56px;
+      text-align: center;
+      background: radial-gradient(circle at top, rgba(56,189,248,0.14), transparent 60%);
+    }
+
+    header h1 {
+      font-size: 46px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: linear-gradient(120deg, #e9d5ff, #f97316, #22d3ee);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 19px;
+      color: var(--text-muted);
+      max-width: 780px;
+      margin: 0 auto 8px;
+    }
+
+    .hero-tagline {
+      font-size: 15px;
+      color: #e5e7eb;
+      max-width: 720px;
+      margin: 12px auto 0;
+    }
+
+    /* SECTION + CARD */
+    .section {
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, rgba(15,23,42,0.98), rgba(15,23,42,0.96));
+      border-radius: 18px;
+      padding: 28px 30px;
+      box-shadow:
+        0 24px 60px rgba(15,23,42,0.9),
+        0 0 0 1px rgba(148,163,184,0.25);
+    }
+
+    h2.section-title {
+      font-size: 32px;
+      margin-bottom: 18px;
+      color: var(--accent-lavender);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .chip {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--chip-bg);
+      border: 1px solid rgba(94, 234, 212, 0.35);
+      color: #e5e7eb;
+    }
+
+    p {
+      color: var(--text-main);
+      margin-bottom: 14px;
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-top: 4px;
+    }
+
+    /* TWO COLUMN LAYOUTS */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: flex-start;
+    }
+
+    .media-frame {
+      background: radial-gradient(circle at top left, rgba(168,85,247,0.25), rgba(15,23,42,1));
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow:
+        0 18px 45px rgba(15,23,42,0.95),
+        0 0 0 1px rgba(148,163,184,0.4);
+    }
+
+    .media-frame img,
+    .media-frame video,
+    .media-frame iframe {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+    }
+
+    /* BUTTONS */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 19px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      transition: 0.18s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(120deg, var(--accent-purple), var(--accent-pink));
+      color: #0b1020;
+      box-shadow: 0 14px 40px rgba(236,72,153,0.45);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 20px 50px rgba(236,72,153,0.6);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--accent-lavender);
+      border-color: rgba(148,163,184,0.5);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15,23,42,0.85);
+      border-color: var(--accent-lavender);
+    }
+
+    /* RESEARCHERS */
+    .researcher-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 6px;
+    }
+
+    .researcher-card {
+      background: radial-gradient(circle at top, rgba(37,99,235,0.28), rgba(15,23,42,0.98));
+      border-radius: 16px;
+      padding: 20px 20px 22px;
+      border: 1px solid rgba(148,163,184,0.45);
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .researcher-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 999px;
+      background-size: cover;
+      background-position: center;
+      background-color: #020617;
+      box-shadow: 0 0 0 3px rgba(129,140,248,0.9);
+    }
+
+    .researcher-name {
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-size: 16px;
+    }
+
+    .researcher-role {
+      font-size: 13px;
+      color: var(--accent-lavender);
+      margin-bottom: 8px;
+    }
+
+    .researcher-links a {
+      font-size: 13px;
+      margin-right: 10px;
+      text-decoration: none;
+      color: var(--accent-lavender);
+      border-bottom: 1px dotted rgba(236,72,153,0.7);
+    }
+
+    /* FOOTER */
+    footer {
+      background: #020617;
+      border-top: 1px solid rgba(31,41,55,1);
+      text-align: center;
+      color: var(--text-muted);
+      padding: 30px 20px 22px;
+      font-size: 14px;
+      margin-top: 40px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 800px) {
+      .navbar {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <h1>PRISM: Proxy Recognition and Inclusive Scoring Method</h1>
-  <h2>Evaluating Context-Dependent Bias in Large Language Models for Resume Screening</h2>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-title">
+      <span class="nav-pill"></span>
+      PRISM · LLM Bias and Resume Screening
+    </div>
+    <div class="nav-links">
+      <a href="#overview">Overview</a>
+      <a href="#methods">Methods</a>
+      <a href="#findings">Findings</a>
+      <a href="#poster">Poster</a>
+      <a href="#talk">Talk</a>
+      <a href="#researchers">Researchers</a>
+      <a href="#repo">Repository</a>
+    </div>
+  </nav>
 
-  <p>This website accompanies our research poster presented at the Fall 2025 Computing Showcase. 
-  PRISM is a framework for analyzing how large language models respond to demographic proxy cues and 
-  how prompt framing influences bias expression.</p>
+  <!-- HERO -->
+  <header id="overview">
+    <h1>PRISM</h1>
+    <p class="hero-subtitle">
+      Proxy Recognition and Inclusive Scoring Method
+    </p>
+    <p class="hero-tagline">
+      Evaluating context dependent bias in large language models used for resume screening, with a focus on proxy cues and prompt framing effects.
+    </p>
+  </header>
 
-  <h2>Project Poster</h2>
-  <p><a href="PRISM-Poster.pdf" target="_blank">Click here to view the full poster (PDF)</a></p>
+  <!-- PROJECT OVERVIEW -->
+  <div class="section">
+    <div class="card">
+      <h2 class="section-title">Project Overview</h2>
+      <div class="chip-row">
+        <span class="chip">Fall 2025 Computing Showcase</span>
+        <span class="chip">LLM Bias Evaluation</span>
+        <span class="chip">Resume Screening</span>
+      </div>
+      <p>
+        PRISM investigates how large language models used for resume screening respond to demographic proxy cues and how prompt framing influences bias expression. Instead of treating bias as a single static score, PRISM focuses on <strong>context dependent</strong> behavior, testing how model outputs shift when subtle resume attributes or evaluator instructions are changed.
+      </p>
+      <p>
+        Our framework combines structured prompt templates, controlled proxy features, and fairness metrics so that shifts in model decisions can be precisely measured and compared. The goal is to produce evaluation patterns that practitioners can integrate into real hiring workflows before LLM tools are deployed in production.
+      </p>
+    </div>
+  </div>
 
-  <h2>Authors</h2>
-  <p><b>Crystal Tubbs</b><br>
-  AI Solutions Architect & Emerging Technologies Specialist<br>
-  <a href="mailto:Ctubbs2@students.kennesaw.edu">Ctubbs2@students.kennesaw.edu</a><br>
-  <a href="https://www.linkedin.com/in/crystal-tubbs/">LinkedIn</a></p>
+  <!-- METHODS + POSTER SNAPSHOT -->
+  <div class="section" id="methods">
+    <div class="card two-col">
+      <div>
+        <h2 class="section-title">Methods</h2>
+        <p>
+          We designed a controlled resume set with proxy features that mirror realistic hiring signals such as school prestige, volunteer work, neighborhood indicators, and activity descriptions that correlate with demographic groups without naming them explicitly.
+        </p>
+        <p>
+          These resumes were scored under multiple LLM prompt framings that represented different evaluator mindsets (strict merit focus, culture fit emphasis, time pressured triage, and inclusive hiring framing). PRISM logs how scores and rankings change across these conditions, and applies fairness metrics to quantify when a frame amplifies or dampens bias.
+        </p>
+        <ul>
+          <li>Curated resume corpus with encoded proxy features.</li>
+          <li>Multiple scoring prompts representing real evaluator instructions.</li>
+          <li>Structured logging of scores, rationales, and ranking changes.</li>
+          <li>Fairness metrics applied across groups and frames.</li>
+        </ul>
+      </div>
 
-  <p><b>Destiny Raburnel</b><br>
-  Data Engineer<br>
-  <a href="mailto:Draburne@students.kennesaw.edu">Draburne@students.kennesaw.edu</a><br>
-  <a href="https://www.linkedin.com/in/destinyraburnel/">LinkedIn</a></p>
+      <div class="media-frame" id="poster">
+        <!-- Replace prism-poster.jpg with your actual poster image filename -->
+        <img src="prism-poster.jpg" alt="PRISM research poster preview" />
+      </div>
+    </div>
 
-  <h2>Repository</h2>
-  <p><a href="https://github.com/YOUR-USERNAME/prism-project">GitHub Repository</a></p>
+    <div class="card" style="margin-top: 22px;">
+      <p class="muted">
+        Downloadable assets:
+      </p>
+      <div class="btn-row">
+        <!-- Update these hrefs with your real links -->
+        <a class="btn btn-primary" href="prism-poster.pdf" target="_blank">View Full Poster (PDF)</a>
+        <a class="btn btn-ghost" href="#talk">View Presentation Details</a>
+      </div>
+    </div>
+  </div>
 
-  <h2>Contact</h2>
-  <p>For questions or collaborations, please reach out to either author.</p>
+  <!-- KEY FINDINGS -->
+  <div class="section" id="findings">
+    <div class="card">
+      <h2 class="section-title">Key Findings</h2>
+      <ul>
+        <li>Prompt framing can meaningfully change how strongly proxy cues influence scores, even when the resumes themselves do not change.</li>
+        <li>Some inclusive framing strategies reduce the gap between resumes with advantaged and disadvantaged proxies, while others simply move bias to different regions of the score distribution.</li>
+        <li>Models may appear fair under a single static evaluation, yet show hidden disparities when evaluated across multiple realistic evaluator mindsets.</li>
+        <li>PRISM style evaluation can be integrated into hiring workflows as a recurring checkpoint whenever prompts or model versions are updated.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FLASH VIDEO + PRESENTATION -->
+  <div class="section" id="talk">
+    <div class="card two-col">
+      <div class="media-frame">
+        <!-- Replace prism-flash.mp4 with your actual video -->
+        <video controls>
+          <source src="prism-flash.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div>
+        <h2 class="section-title">Showcase Talk and Demo</h2>
+        <p>
+          Our short explainer video walks through why proxy based bias is difficult to detect with surface level audits and how PRISM builds a layered, scenario driven view of model behavior. The accompanying slide deck summarizes our experimental design, key results, and recommendations for teams adopting LLM tools in hiring.
+        </p>
+        <div class="btn-row">
+          <!-- Update these links as needed -->
+          <a class="btn btn-primary" href="prism-presentation.pdf" target="_blank">View Slide Deck</a>
+          <a class="btn btn-ghost" href="prism-demo.html" target="_blank">Open Interactive Demo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESEARCHERS -->
+  <div class="section" id="researchers">
+    <div class="card">
+      <h2 class="section-title">About the Researchers</h2>
+      <div class="researcher-grid">
+        <!-- Crystal -->
+        <div class="researcher-card">
+          <div class="researcher-photo" style="background-image: url('crystal-headshot.jpg');"></div>
+          <div>
+            <div class="researcher-name">Crystal Tubbs</div>
+            <div class="researcher-role">AI Solutions Architect & Emerging Technologies Specialist</div>
+            <p class="muted">
+              Crystal focuses on applied AI system design, fairness evaluation, and representation geometry. She leads research on subliminal bias, knowledge distillation safety, and human centered AI tools that support veterans, small businesses, and under resourced communities.
+            </p>
+            <div class="researcher-links">
+              <a href="mailto:Ctubbs2@students.kennesaw.edu">Email</a>
+              <a href="https://www.linkedin.com/in/crystal-tubbs" target="_blank">LinkedIn</a>
+              <a href="https://github.com/Msmetamorphosis" target="_blank">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Destiny -->
+        <div class="researcher-card">
+          <div class="researcher-photo" style="background-image: url('destiny-headshot.jpg');"></div>
+          <div>
+            <div class="researcher-name">Destiny Raburnel</div>
+            <div class="researcher-role">Data Engineer</div>
+            <p class="muted">
+              Destiny specializes in data engineering, experimental design, and analytics pipelines. For PRISM she co designed the resume corpus, engineered the logging and metric pipelines, and supported statistical analysis of model behavior across proxy features and prompts.
+            </p>
+            <div class="researcher-links">
+              <a href="mailto:Draburne@students.kennesaw.edu">Email</a>
+              <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+              <!-- Replace with Destiny's real LinkedIn / GitHub when ready -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPOSITORY -->
+  <div class="section" id="repo">
+    <div class="card">
+      <h2 class="section-title">Repository & Assets</h2>
+      <p>
+        The PRISM repository includes our evaluation templates, anonymized resume schema, analysis notebooks, and plotting scripts so that other teams can adapt the framework to their own models and hiring domains.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="https://github.com/Msmetamorphosis/PRISM-Project" target="_blank">GitHub Repository</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    PRISM · Proxy Recognition and Inclusive Scoring Method · Fall 2025 Computing Showcase
+  </footer>
 </body>
 </html>
-
