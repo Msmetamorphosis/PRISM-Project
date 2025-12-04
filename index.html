@@ -5,69 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PRISM | Proxy Recognition and Inclusive Scoring Method</title>
 
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #2E36AA; /* Pigment Blue */
-      --bg-soft: #3B44C6;
-      --card-bg: rgba(0,0,0,0.25);
-
-      --accent-purple: #8F61DB; /* Medium Purple */
-      --accent-pink: #FC90AF;
-      --accent-lavender: #E9D5FF;
-      --accent-blue: #2E36AA;
-
-      --text-main: #F5F5FF;
-      --text-muted: #D4D4E0;
-
-      --chip-bg: rgba(143,97,219,0.18);
-      --border-subtle: rgba(255,255,255,0.18);
+      /* PRISM Color Palette */
+      --blue-bg: #2E36AA;
+      --purple-mid: #8F61DB;
+      --purple-dark: #502688;
+      --pink-electric: #FC90AF;
+      --lavender: #EDBBCE;
+      --almond: #EFDCCE;
+      --text-light: #F8F8FF;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      background: var(--bg);
-      background: linear-gradient(180deg, #2E36AA 0%, #502688 70%, #2E36AA 100%);
-      color: var(--text-main);
+      background: linear-gradient(to bottom, var(--blue-bg), var(--purple-dark) 85%);
+      color: var(--text-light);
       font-family: "Inter", sans-serif;
+      font-size: 16px;
       line-height: 1.6;
     }
 
-    h1, h2, h3 { font-family: "Merriweather", serif; margin-top: 0; }
+    h1, h2, h3 {
+      font-family: "Merriweather", serif;
+      margin-top: 0;
+    }
 
-    a { color: var(--accent-lavender); }
+    a {
+      color: var(--pink-electric);
+      text-decoration: none;
+    }
 
     /* NAVBAR */
     .navbar {
       position: sticky;
       top: 0;
       z-index: 100;
-      backdrop-filter: blur(8px);
-      background: rgba(0,0,0,0.25);
+      background: rgba(46, 54, 170, 0.92);
+      backdrop-filter: blur(10px);
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      padding: 14px 28px;
-      border-bottom: 1px solid var(--border-subtle);
-      color: #fff;
+      padding: 12px 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    .nav-title { font-size: 17px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.06em; }
-
-    .nav-links { display: flex; gap: 18px; }
-
-    .nav-links a {
-      color: #fff;
-      padding: 6px 12px;
-      text-decoration: none;
-      border-radius: 999px;
-      transition: 0.2s ease;
+    .nav-title {
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+    }
+
     .nav-links a:hover {
-      background: rgba(255,255,255,0.15);
-      transform: translateY(-1px);
+      color: var(--lavender);
+      text-decoration: underline;
     }
 
     /* HERO */
@@ -77,26 +82,26 @@
     }
 
     header h1 {
-      font-size: 48px;
-      font-weight: 800;
-      color: var(--accent-purple); /* updated */
+      font-size: 52px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--purple-mid);
     }
 
     .hero-subtitle {
-      font-size: 20px;
-      color: var(--text-muted);
-      max-width: 760px;
-      margin: 10px auto;
+      font-size: 19px;
+      color: var(--almond);
+      margin: 0 auto 6px;
     }
 
     .hero-tagline {
-      font-size: 16px;
-      color: var(--text-main);
+      font-size: 15px;
       max-width: 720px;
-      margin: 10px auto;
+      margin: 12px auto 0;
+      color: var(--lavender);
     }
 
-    /* SECTION & CARD */
+    /* SECTIONS */
     .section {
       max-width: 1100px;
       margin: 50px auto;
@@ -104,39 +109,54 @@
     }
 
     .card {
-      background: rgba(255,255,255,0.08);
+      background: linear-gradient(135deg, rgba(80, 38, 136, 0.95), rgba(143, 97, 219, 0.9));
       border-radius: 18px;
       padding: 28px 30px;
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border-subtle);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    h2.section-title { color: var(--accent-purple); font-size: 30px; margin-bottom: 16px; }
+    h2.section-title {
+      font-size: 32px;
+      margin-bottom: 18px;
+      color: var(--pink-electric);
+    }
 
-    /* CHIP */
-    .chip-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    p {
+      margin-bottom: 14px;
+      text-align: justify;
+      color: var(--almond);
+    }
+
+    .chip-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
     .chip {
-      background: var(--chip-bg);
-      padding: 4px 10px;
+      padding: 5px 11px;
+      font-size: 12px;
+      background: var(--lavender);
+      color: #3b1b4c;
       border-radius: 999px;
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border: 1px solid rgba(255,255,255,0.25);
+      font-weight: 600;
     }
 
-    /* TWO COLUMN */
+    /* GRID LAYOUT */
     .two-col {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1fr 0.9fr;
       gap: 28px;
+      align-items: center;
     }
 
     .media-frame {
-      background: rgba(255,255,255,0.12);
+      background: rgba(255, 255, 255, 0.08);
       padding: 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 16px;
+      box-shadow: 0 12px 22px rgba(0, 0, 0, 0.35);
     }
 
     .media-frame img,
@@ -147,66 +167,93 @@
     }
 
     /* BUTTONS */
-    .btn-row { display: flex; gap: 12px; margin-top: 10px; }
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
     .btn {
-      padding: 10px 18px;
-      text-transform: uppercase;
-      font-size: 12px;
-      border-radius: 99px;
-      text-decoration: none;
+      padding: 11px 19px;
+      border-radius: 999px;
+      font-size: 13px;
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 1px solid transparent;
     }
+
     .btn-primary {
-      background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink));
-      color: #000;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      background: var(--pink-electric);
+      color: #3b1b4c;
+      border-color: var(--pink-electric);
     }
+
     .btn-ghost {
-      border: 1px solid rgba(255,255,255,0.4);
-      color: #fff;
+      background: transparent;
+      color: var(--lavender);
+      border: 1px solid var(--lavender);
     }
 
     /* RESEARCHERS */
     .researcher-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 26px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
     }
 
     .researcher-card {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.28);
-      border-radius: 16px;
-      padding: 24px;
+      background: linear-gradient(160deg, rgba(80, 38, 136, 0.85), rgba(143, 97, 219, 0.78));
+      padding: 26px;
+      border-radius: 18px;
       text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.22);
     }
 
     .researcher-photo {
       width: 110px;
       height: 110px;
-      margin: 0 auto 16px;
-      border-radius: 999px;
+      border-radius: 50%;
       background-size: cover;
       background-position: center;
-      border: 3px solid var(--accent-purple);
+      margin: 0 auto 16px;
+      box-shadow: 0 0 0 4px var(--lavender);
     }
 
-    .researcher-name { font-size: 20px; font-weight: 700; margin: 6px 0; }
-    .researcher-role { font-size: 14px; color: var(--accent-lavender); margin-bottom: 10px; }
+    .researcher-name {
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-size: 18px;
+      color: var(--text-light);
+    }
+
+    .researcher-role {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: var(--pink-electric);
+    }
 
     .researcher-links a {
-      margin: 0 10px;
-      color: var(--accent-lavender);
-      font-size: 14px;
+      margin-right: 10px;
+      font-size: 13px;
+      color: var(--lavender);
+      border-bottom: 1px dotted var(--lavender);
     }
 
     footer {
+      background: #1e1a4b;
       text-align: center;
-      padding: 30px;
-      margin-top: 40px;
-      color: #ddd;
+      padding: 32px 20px;
       font-size: 14px;
-      background: rgba(0,0,0,0.2);
+      color: var(--lavender);
+      margin-top: 40px;
+    }
+
+    @media (max-width: 800px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -236,7 +283,7 @@
     </p>
   </header>
 
-  <!-- PROJECT OVERVIEW -->
+  <!-- OVERVIEW -->
   <div class="section">
     <div class="card">
       <h2 class="section-title">Project Overview</h2>
@@ -250,6 +297,7 @@
       <p>
         PRISM investigates how large language models respond to implicit demographic cues during resume screening, and how evaluator framing (strict merit, culture fit, inclusive framing) changes model decisions.
       </p>
+
       <p>
         Our framework measures context dependent bias shifts, capturing patterns that static fairness tests often overlook.
       </p>
@@ -262,35 +310,16 @@
       <div>
         <h2 class="section-title">Methods</h2>
         <p>
-          We curated a structured resume dataset embedding proxy features such as neighborhood indicators, volunteer signals, and prestige cues correlated with demographic attributes.
+          We curated a structured resume dataset embedding proxy features such as neighborhood indicators, volunteer signals, and activity descriptions correlated with real demographic patterns.
         </p>
         <p>
-          Resumes were evaluated across multiple prompt framings reflecting real evaluator behavior. Fairness metrics quantify score shifts, ranking changes, and disparity movement across frames.
+          These resumes were scored using multiple evaluator framings (merit focused, culture fit, triage, inclusive). PRISM logs ranking changes, reasoning patterns, and fairness shifts for each condition.
         </p>
       </div>
 
       <div class="media-frame" id="poster">
-        <img src="prism-poster.jpg" alt="PRISM research poster">
+        <img src="prism-poster.jpg" alt="PRISM poster">
       </div>
-    </div>
-
-    <div class="card" style="margin-top:20px;">
-      <div class="btn-row">
-        <a class="btn btn-primary" href="prism-poster.pdf" target="_blank">View Full Poster (PDF)</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- FINDINGS -->
-  <div class="section" id="findings">
-    <div class="card">
-      <h2 class="section-title">Key Findings</h2>
-      <ul>
-        <li>Prompt framing significantly alters how models weigh proxy cues.</li>
-        <li>Inclusive framing reduces disparities in some contexts but can shift bias to other score regions.</li>
-        <li>Static fairness audits may hide bias that only emerges under specific evaluator instructions.</li>
-        <li>PRISM can be integrated as a recurring evaluation framework for production hiring workflows.</li>
-      </ul>
     </div>
   </div>
 
@@ -302,11 +331,13 @@
           <source src="prism-flash.mp4" type="video/mp4">
         </video>
       </div>
+
       <div>
         <h2 class="section-title">Showcase Talk & Demo</h2>
         <p>
-          Our explainer video walks through proxy based bias and the PRISM evaluation layers. The slide deck summarizes experimental design, findings, and recommendations.
+          Our flash video explains why proxy based bias is difficult to detect and how PRISM’s layered framing evaluation provides a more realistic behavioral picture compared to one dimensional scores.
         </p>
+
         <div class="btn-row">
           <a class="btn btn-primary" href="prism-presentation.pdf" target="_blank">View Slide Deck</a>
           <a class="btn btn-ghost" href="#" target="_blank">Interactive Demo</a>
@@ -324,10 +355,14 @@
 
         <!-- Crystal -->
         <div class="researcher-card">
-          <div class="researcher-photo" style="background-image:url('crystal-headshot.jpg');"></div>
+          <div class="researcher-photo" style="background-image: url('crystal-headshot.jpg')"></div>
+
           <div class="researcher-name">Crystal Tubbs</div>
           <div class="researcher-role">AI Solutions Architect & Emerging Technologies Specialist</div>
-          <p class="muted">Crystal ☺️</p>
+
+          <p>
+            Crystal works in applied AI system design, fairness analysis, prompt engineering, and multimodal workflow development. Through Metamorphic Curations, she builds AI tools serving veterans, small businesses, and underserved communities with transparent, measurable outcomes.
+          </p>
 
           <div class="researcher-links">
             <a href="mailto:Ctubbs2@students.kennesaw.edu">Email</a>
@@ -338,24 +373,21 @@
 
         <!-- Destiny -->
         <div class="researcher-card">
-          <div class="researcher-photo" style="background-image:url('destiny-headshot.jpg');"></div>
+          <div class="researcher-photo" style="background-image: url('destiny-headshot.jpg')"></div>
+
           <div class="researcher-name">Destiny Raburnel</div>
           <div class="researcher-role">Data Engineer</div>
 
           <p>
-            Destiny Raburnel is a data engineer with a multidisciplinary foundation in biomedical engineering, software engineering, and artificial intelligence. She works across data engineering, applied machine learning, automation, and software development, building systems that combine analytical rigor with creative engineering.
+            Destiny is a data engineer with a multidisciplinary foundation in biomedical engineering, software engineering, and artificial intelligence. She works across data engineering, automation, machine learning, and software development, combining analytical rigor with creative engineering.
           </p>
 
           <p>
-            She holds a BS in Biomedical Engineering and an MS in Software Engineering, and is currently completing an MS in Artificial Intelligence with a focus on intelligent systems, NLP, and modern applied machine learning.
+            She holds a BS in Biomedical Engineering and an MS in Software Engineering, and is currently completing an MS in Artificial Intelligence. Her toolkit includes Python, JavaScript, SQL, TypeScript, Java, cloud services, APIs, and modern data engineering platforms.
           </p>
 
           <p>
-            In her current role, she designs and maintains data pipelines, APIs, and automation workflows. Her toolkit includes JavaScript, TypeScript, Python, Java, SQL, cloud services, and modern data engineering platforms.
-          </p>
-
-          <p>
-            Destiny also experiments with robotics, NFC hardware, and prototyping tools such as 3D printing. Her work blends creativity with engineering precision, and she is passionate about scalable, intelligent, user centered technology.
+            Destiny is passionate about robotics, NFC systems, prototyping, machine learning, and designing intelligent systems that blend creativity with technical excellence.
           </p>
 
           <div class="researcher-links">
@@ -372,14 +404,17 @@
   <div class="section" id="repo">
     <div class="card">
       <h2 class="section-title">Repository & Assets</h2>
-      <p>The repository contains templates, proxy feature schema, evaluation scripts, and analysis notebooks.</p>
-      <div class="btn-row">
-        <a class="btn btn-primary" href="https://github.com/Msmetamorphosis/PRISM-Project" target="_blank">GitHub Repository</a>
-      </div>
+      <p>
+        The PRISM repository includes evaluation templates, resume schema, metrics scripts, and plotting notebooks.
+      </p>
+      <a class="btn btn-primary" href="https://github.com/Msmetamorphosis/PRISM-Project" target="_blank">GitHub Repository</a>
     </div>
   </div>
 
-  <footer>PRISM · Proxy Recognition and Inclusive Scoring Method · Fall 2025 Computing Showcase</footer>
+  <!-- FOOTER -->
+  <footer>
+    PRISM · Proxy Recognition and Inclusive Scoring Method · Fall 2025 Computing Showcase
+  </footer>
 
 </body>
 </html>
