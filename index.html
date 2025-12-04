@@ -279,16 +279,19 @@
       font-size: 20px;
     }
 
-    .researcher-photo {
-      width: 130px;
-      height: 130px;
-      border-radius: 999px;
-      background-size: cover;
-      background-position: center;
+.researcher-photo {
+      width: 210px;                 /* Wider portrait frame */
+      height: 300px;                /* Portrait rectangle */
+      border-radius: 22px;          /* Rounded corners */
+      background-size: cover;       
+      background-position: center;  
+      background-repeat: no-repeat;
       background-color: #12041f;
-      box-shadow: 0 0 0 4px rgba(252,144,175,0.9);
-      margin-bottom: 20px;
-    }
+      border: 4px solid var(--electric-pink); /* Pink border */
+      box-shadow: 0 0 20px rgba(252,144,175,0.4);
+      margin-bottom: 24px;
+}
+
 
     .researcher-name {
       font-weight: 700;
